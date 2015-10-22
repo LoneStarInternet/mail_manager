@@ -31,13 +31,16 @@ module MailManager
             found_messages = true
             Rails.logger.info "You have #{pop.mails.length} new bounced messages."
             Rails.logger.info "Downloading..."
-
+            max_messages = 50
+            num_messages = 0
             pop.mails.each_with_index do|m,i|
               bounce = ::MailManager::Bounce.create({
                 :bounce_message => m.pop
               })
               bounce.process
               m.delete
+              num_messages += 1
+              break if num_messages > max_messages
             end
           end
         end

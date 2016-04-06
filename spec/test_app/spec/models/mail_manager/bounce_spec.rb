@@ -4,10 +4,10 @@ require 'rails_helper'
 RSpec.describe MailManager::Bounce do
   context "when checking pop account" do
     it "should not blow up when mail has no from address" do
-      Delayed::Worker.delay_jobs = true
-      send_bounce('bounce-500-no-from-address.eml')
-      MailManager::BounceJob.new.perform
-      expect(MailManager::Bounce.last.message.status).to eq 'failed'
+      bounce = create_bounce_from_file('bounce-500-no-from-address.eml')
+      expect{bounce.process}.not_to  raise_exception
+      expect(bounce.message.status).to eq 'failed'
+      expect(bounce.status).to eq 'removed'
       Delayed::Worker.delay_jobs = false
     end
     it "should not blow up when mail contains a bad extended char" do
@@ -74,5 +74,13 @@ RSpec.describe MailManager::Bounce do
     mail.delivery_method :smtp
     mail.delivery_method.settings.merge!(ActionMailer::Base.smtp_settings)
     mail.deliver
+  end
+  def create_bounce_from_file(filename)
+    mail_message = File.read(File.join(Rails.root,'spec','support','files',filename))
+    bounce = MailManager::Bounce.create(bounce_message: mail_message)
+    message = FactoryGirl.create(:message)
+    message.guid = bounce.bounce_message_guid
+    message.save
+    bounce
   end
 end

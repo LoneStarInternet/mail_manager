@@ -70,6 +70,9 @@ module MailManager
 
     def from_mailer_daemon?
       ['postmaster','mailer-daemon'].include?(email.from.first.gsub(/\@.*$/,'').downcase)
+    rescue => e
+      # they don't have a proper from email address
+      delivery_error_code.present?
     end
   
     def dismiss

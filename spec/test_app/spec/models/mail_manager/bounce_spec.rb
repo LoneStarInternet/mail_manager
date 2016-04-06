@@ -3,6 +3,13 @@ require 'rails_helper'
 
 RSpec.describe MailManager::Bounce do
   context "when checking pop account" do
+    it "should not blow up when mail has no from address" do
+      Delayed::Worker.delay_jobs = true
+      send_bounce('bounce-500-no-from-address.eml')
+      MailManager::BounceJob.new.perform
+      expect(MailManager::Bounce.last.message.status).to eq 'failed'
+      Delayed::Worker.delay_jobs = false
+    end
     it "should not blow up when mail contains a bad extended char" do
       Delayed::Worker.delay_jobs = true
       send_bounce('bad_utf8_chars.eml')

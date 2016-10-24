@@ -52,8 +52,10 @@ module MailManager
           transaction do 
             update_attribute(:comments, delivery_error_message)
             change_status(:removed)
-            message.change_status(:failed)
-            message.update_attribute(:result,"Failure Message from Bounce: #{delivery_error_message}")
+            if message.present?
+              message.change_status(:failed)
+              message.update_attribute(:result,"Failure Message from Bounce: #{delivery_error_message}")
+            end
             Subscription.fail_by_email_address(contact_email_address)
           end
         else

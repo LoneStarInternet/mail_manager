@@ -45,7 +45,7 @@ Feature: Manage Contacts
     When I go to the new contact page
      And I fill in "First name" with "Bobo"
      And I fill in "Last name" with "Clown"
-     And I fill in "Email address" with "bobo@example.com" 
+     And I fill in "Email address" with "bobo@example.com " 
      And I check "Peeps"
      And I press "Submit"
     Then contact "Bobo Clown" should exist with email_address "bobo@example.com"
@@ -69,7 +69,7 @@ Feature: Manage Contacts
      And I follow "Edit"
      And I fill in "First name" with "Bobo"
      And I fill in "Last name" with "Clown"
-     And I fill in "Email address" with "bobo@example.com" 
+     And I fill in "Email address" with " bobo@example.com" 
      And I check "Peeps"
      And I press "Submit"
     Then contact "Bobo Clown" should exist with email_address "bobo@example.com"

@@ -12,6 +12,8 @@ module MailManager
     #  :message => Authentication.bad_email_message, :allow_nil => true
     validates_format_of :email_address, :with => /\w{1,}[@][\w\-]{1,}([.]([\w\-]{1,})){1,3}$/, :allow_nil => true
 
+    before_validation :trim_fields
+
     include MailManager::ContactableRegistry::Contactable
     include Deleteable
 
@@ -19,6 +21,12 @@ module MailManager
 
     def contact
       self
+    end
+
+    def trim_fields
+      [:first_name, :last_name, :email_address].each do |field|
+        self[field].gsub!(/\A\s*|\s*\Z/,'') if self[field].present?
+      end
     end
     
     scope :search, lambda{|params| 

@@ -162,6 +162,15 @@ RSpec.describe MailManager::Mailing do
       expect(MyMailable.mailable_parts_call_count).to eq 1
     end
 
+    it "creates its 'List-Unsubscribe' headers correctly" do
+      @mailing.initialize_messages
+      message = @mailing.messages.first
+      message.deliver
+      sent_message = ActionMailer::Base.deliveries.last.to_s
+      unsubscribe_header = "<mailto:#{MailManager.bounce['email_address']}?subject=unsubscribe>,<#{message.unsubscribe_url}>"
+      expect(sent_message.include?(unsubscribe_header)).to be true
+    end
+
     it "sends a specified number of messages per job" do
       expect(Delayed::Job.count).to eq 1
       expect(MailManager.deliveries_per_run).to be > 0

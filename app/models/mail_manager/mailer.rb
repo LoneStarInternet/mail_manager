@@ -53,7 +53,7 @@ module MailManager
       def deliver_message(message, cached_parts=nil)
         cached_parts ||= message.parts
         self.send_mail(message.subject,message.email_address_with_name,message.from_email_address,
-          cached_parts,message.guid,message.mailing.include_images?)
+          cached_parts,message.guid,message.mailing.include_images?,message.unsubscribe_url)
       end
 
       # create mailing; parsing html sources for images to attach/include
@@ -108,7 +108,7 @@ module MailManager
       end
     
       # send the mailing with the given subject, addresses, and parts
-      def send_mail(subject,to_email_address,from_email_address,the_parts,message_id=nil,include_images=true)
+      def send_mail(subject,to_email_address,from_email_address,the_parts,message_id=nil,include_images=true,unsubscribe_url=nil)
         include_images = (include_images and !MailManager.dont_include_images_domains.detect{|domain| 
           to_email_address.strip =~ /#{domain}>?$/})
         mail = if include_images
@@ -118,6 +118,9 @@ module MailManager
         end
         mail.header['Return-Path'] = MailManager.bounce['email_address']
         mail.header['X-Bounce-Guid'] = message_id if message_id
+        unsubscribe_header = "<mailto:#{MailManager.bounce['email_address']}?subject=unsubscribe>"
+        unsubscribe_header += ",<#{unsubscribe_url}>" if unsubscribe_url.present? 
+        mail.header['List-Unsubscribe'] = unsubscribe_header
         set_mail_settings(mail)
         mail.deliver!
         Rails.logger.info "Sent mail to: #{to_email_address}"

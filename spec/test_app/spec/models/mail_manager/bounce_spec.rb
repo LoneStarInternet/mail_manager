@@ -69,7 +69,7 @@ RSpec.describe MailManager::Bounce do
       expect(MailManager::Subscription.count).to eq 1
     end
     it "unsubscribes an address when a bounce has 'unsubscribe' in its subject" do
-      contact = FactoryGirl.create(:contact)
+      contact = FactoryGirl.create(:contact, email_address: 'bobo@example.net')
       mailing_list = FactoryGirl.create(:mailing_list)
       mailing_list2 = FactoryGirl.create(:mailing_list)
       sub1=contact.subscribe(mailing_list)

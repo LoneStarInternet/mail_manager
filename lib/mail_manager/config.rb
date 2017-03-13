@@ -12,10 +12,20 @@ class MailManager::Config
   
   def use_file!(file)
     begin
-      hash = YAML::load(ERB.new(IO.read(file)).result)       
-      @sections.merge!(hash) {|key, old_val, new_val| (old_val || new_val).merge new_val }
+      hash = YAML::load(ERB.new(IO.read(file)).result).with_indifferent_access
+      key = old_val = new_val = nil
+      @sections.merge!(hash) do |key, old_val, new_val| 
+        old_val ||= Hash.new.with_indifferent_access
+        new_val ||= Hash.new.with_indifferent_access
+        if old_val.is_a?(Hash) && new_val.is_a?(Hash)
+          old_val.merge(new_val)
+        else
+          new_val
+        end
+      end
       @params.merge!(@sections['common'])
     rescue => e
+      Rails.logger.error "Couldn't load config file #{file} #{e.message}"
       nil
     end    
   end

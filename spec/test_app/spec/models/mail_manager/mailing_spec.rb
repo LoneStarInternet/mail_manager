@@ -42,6 +42,21 @@ RSpec.describe MailManager::Mailing do
     expect(MailManager::Mailing.count).to eq 0
     expect(MailManager::Mailing.deleted.count).to eq 1
   end
+  it "will remove the scheduled job on deletion" do
+    Delayed::Job.delete_all
+    expect(Delayed::Job.count).to eq 0
+    Delayed::Worker.delay_jobs = true
+    mailing = MailManager::Mailing.create(valid_attributes.merge({
+      scheduled_at: 4.hours.from_now
+    }))
+    mailing.schedule
+    expect(Delayed::Job.count).to eq 1
+    expect(mailing.job).to eq Delayed::Job.first
+    mailing.delete
+    expect(MailManager::Mailing.deleted.count).to eq 1
+    expect(Delayed::Job.count).to eq 0
+    Delayed::Worker.delay_jobs = false
+  end
   it "doesn't include images when configured to not do so for a domain" do
     # should be in config
     image_url = "http://www.lone-star.net/graphics/lst_header_logo.png"

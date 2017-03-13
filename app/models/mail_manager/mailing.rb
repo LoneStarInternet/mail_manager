@@ -168,6 +168,13 @@ module MailManager
         })
       end 
     end
+
+    def delete
+      transaction do
+        super
+        job.destroy
+      end
+    end
   
     # clean up an email address for sending FIXME - maybe do a bit more
     def self.clean_email_address(email_address)

@@ -68,6 +68,22 @@ RSpec.describe MailManager::Bounce do
       expect(sub1.status).to eq 'failed_address'
       expect(MailManager::Subscription.count).to eq 1
     end
+    it "unsubscribes an address when a bounce has 'unsubscribe' in its subject" do
+      contact = FactoryGirl.create(:contact)
+      mailing_list = FactoryGirl.create(:mailing_list)
+      mailing_list2 = FactoryGirl.create(:mailing_list)
+      sub1=contact.subscribe(mailing_list)
+
+      bounce = MailManager::Bounce.create(
+        bounce_message: File.read('spec/support/files/unsubscribe.txt')
+      )
+      bounce.process
+      
+      sub1.reload
+      expect(bounce.status).to eq 'removed'
+      expect(sub1.status).to eq 'unsubscribed'
+      expect(MailManager::Subscription.count).to eq 1
+    end
   end
   def send_bounce(filename)
     mail = Mail.new(File.read(File.join(Rails.root,'spec','support','files',filename)))

@@ -43,7 +43,12 @@ module MailManager
       if status.eql?('unprocessed') || force
         self.message = Message.find_by_guid(bounce_message_guid)
         self.mailing = message.mailing unless message.nil?
-        if !from_mailer_daemon?
+        if email.subject.to_s =~ /unsubscribe/i
+          email.from.each do |email_address|
+            MailManager::Subscription.unsubscribe_by_email_address(email_address)
+          end
+          change_status(:removed)
+        elsif !from_mailer_daemon?
           change_status(:invalid)
         elsif delivery_error_code =~ /4\.\d\.\d/ || delivery_error_message.to_s =~ /quota/i
           update_attribute(:comments, delivery_error_message)

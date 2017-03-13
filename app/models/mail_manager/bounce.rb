@@ -22,7 +22,7 @@ module MailManager
     belongs_to :message, :class_name => 'MailManager::Message'
     belongs_to :mailing, :class_name => 'MailManager::Mailing', counter_cache: true
     include StatusHistory
-    override_statuses(['needs_manual_intervention','unprocessed','dismissed','resolved','invalid','removed','deferred'],'unprocessed')
+    override_statuses(['needs_manual_intervention','unprocessed','dismissed','resolved','invalid','removed','deferred','unsubscribed'],'unprocessed')
     before_create :set_default_status
     #default_scope :order => "#{MailManager.table_prefix}contacts.last_name, #{MailManager.table_prefix}contacts.first_name, #{MailManager.table_prefix}contacts.email_address",
     #    :joins => 
@@ -44,10 +44,17 @@ module MailManager
         self.message = Message.find_by_guid(bounce_message_guid)
         self.mailing = message.mailing unless message.nil?
         if email.subject.to_s =~ /unsubscribe/i
-          email.from.each do |email_address|
-            MailManager::Subscription.unsubscribe_by_email_address(email_address)
+          guid = email.subject.to_s.gsub(/unsubscribe from (.*)/,'\1')
+          self.message = Message.find_by_guid(guid)
+          self.mailing = message.mailing unless message.nil?
+          change_status(:unsubscribed)
+          if(message.present?) 
+            MailManager::Subscription.unsubscribe_by_email_address(contact_email_address)
+          else
+            email.from.each do |email_address|
+              MailManager::Subscription.unsubscribe_by_email_address(email_address)
+            end
           end
-          change_status(:removed)
         elsif !from_mailer_daemon?
           change_status(:invalid)
         elsif delivery_error_code =~ /4\.\d\.\d/ || delivery_error_message.to_s =~ /quota/i

@@ -80,7 +80,30 @@ RSpec.describe MailManager::Bounce do
       bounce.process
       
       sub1.reload
-      expect(bounce.status).to eq 'removed'
+      expect(bounce.status).to eq 'unsubscribed'
+      expect(sub1.status).to eq 'unsubscribed'
+      expect(MailManager::Subscription.count).to eq 1
+    end
+    it "unsubscribes from a messages's contact when it's guid is in the subject" do
+      contact = FactoryGirl.create(:contact, email_address: 'bobo_other@example.net')
+      mailing_list = FactoryGirl.create(:mailing_list)
+      mailing_list2 = FactoryGirl.create(:mailing_list)
+      sub1=contact.subscribe(mailing_list)
+      mailing = FactoryGirl.create(:mailing)
+      message = FactoryGirl.create(:message, 
+        mailing_id: mailing.id,
+        contact_id: contact.id
+      )
+
+      bounce = MailManager::Bounce.create(
+        bounce_message: File.read('spec/support/files/unsubscribe.txt').gsub(
+          /Subject: unsubscribe/,"Subject: unsubscribe from #{message.guid}"
+        )
+      )
+      bounce.process
+      
+      sub1.reload
+      expect(bounce.status).to eq 'unsubscribed'
       expect(sub1.status).to eq 'unsubscribed'
       expect(MailManager::Subscription.count).to eq 1
     end

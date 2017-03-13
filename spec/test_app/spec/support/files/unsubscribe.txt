@@ -1,0 +1,29 @@
+Return-Path: <chauboldt@lone-star.net>
+X-Original-To: chris@hauboldt.us
+Delivered-To: chrisboy@ophanim.hauboldt.us
+Received: from enoch.hauboldt.us (enoch.hauboldt.us [45.56.75.249])
+  by ophanim.hauboldt.us (Postfix) with ESMTP id 451539CD2C
+  for <chris@hauboldt.us>; Mon, 13 Mar 2017 10:00:11 -0500 (CDT)
+Received: from mail.lnstar.com (mail.lnstar.com [96.126.122.158])
+  by enoch.hauboldt.us (Postfix) with ESMTPS id B90B22E0A2
+  for <chris@gylo.us>; Mon, 13 Mar 2017 15:00:10 +0000 (UTC)
+Received: from [20.10.10.11] (r74-193-50-146.gldwcmta01.glwttx.tl.dh.suddenlink.net [74.193.50.146])
+  (authenticated bits=0)
+  by mail.lnstar.com (8.14.4/8.13.8) with ESMTP id v2DF09Ne006687
+  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+  for <chris@gylo.us>; Mon, 13 Mar 2017 10:00:09 -0500
+To: bounce@example.net
+From: Bobo Clown<bobo@example.net>
+Subject: unsubscribe
+Message-ID: <e1b39be4-254d-7486-3d36-cf8b583fb0cd@lone-star.net>
+Date: Mon, 13 Mar 2017 10:00:04 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.5 required=5.0 tests=ALL_TRUSTED,BAYES_05,
+  TVD_SPACE_RATIO autolearn=ham version=3.3.2
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on Mail
+
+

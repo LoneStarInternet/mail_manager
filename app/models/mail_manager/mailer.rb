@@ -118,7 +118,7 @@ module MailManager
         end
         mail.header['Return-Path'] = MailManager.bounce['email_address']
         mail.header['X-Bounce-Guid'] = message_id if message_id
-        unsubscribe_header = "<mailto:#{MailManager.bounce['email_address']}?subject=unsubscribe>"
+        unsubscribe_header = "<mailto:#{MailManager.bounce['email_address']}?subject=unsubscribe%20from%20#{message_id}>"
         unsubscribe_header += ",<#{unsubscribe_url}>" if unsubscribe_url.present? 
         mail.header['List-Unsubscribe'] = unsubscribe_header
         set_mail_settings(mail)

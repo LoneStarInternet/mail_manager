@@ -167,7 +167,7 @@ RSpec.describe MailManager::Mailing do
       message = @mailing.messages.first
       message.deliver
       sent_message = ActionMailer::Base.deliveries.last.to_s
-      unsubscribe_header = "<mailto:#{MailManager.bounce['email_address']}?subject=unsubscribe>,<#{message.unsubscribe_url}>"
+      unsubscribe_header = "<mailto:#{MailManager.bounce['email_address']}?subject=unsubscribe%20from%20#{message.guid}>,<#{message.unsubscribe_url}>"
       expect(sent_message.include?(unsubscribe_header)).to be true
     end
 

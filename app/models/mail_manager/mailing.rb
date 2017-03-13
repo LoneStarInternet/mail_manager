@@ -172,7 +172,7 @@ module MailManager
     def delete
       transaction do
         super
-        job.destroy
+        job.try(:destroy)
       end
     end
   

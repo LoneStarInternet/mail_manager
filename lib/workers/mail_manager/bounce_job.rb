@@ -35,7 +35,9 @@ module MailManager
             num_messages = 0
             pop.mails.each_with_index do|m,i|
               bounce = ::MailManager::Bounce.create({
-                :bounce_message => m.pop
+                # ensure encoding will work; we don't really care about invalid characters
+                # PG will explode if utf-8 has invalid chars
+                :bounce_message => m.pop.encode("utf-8", invalid: :replace, undef: :replace)
               })
               bounce.process
               m.delete

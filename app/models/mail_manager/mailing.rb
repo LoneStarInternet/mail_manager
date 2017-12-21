@@ -155,7 +155,8 @@ module MailManager
     # creates all of the Messages that will be sent for this mailing
     def initialize_messages
       emails_hash = MailManager::Message.email_address_hash_for_mailing_id(self.id)
-      emails_hash.merge!(MailManager::Subscription.unsubscribed_emails_hash)
+      # NOTE: the following over-protective line has been removed as per Ken's request 2017-12-21
+      # emails_hash.merge!(MailManager::Subscription.unsubscribed_emails_hash)
       ids = self.mailing_lists.select('id').map(&:id)
       active_subscriptions_hash = MailManager::MailingList.
         active_email_addresses_contact_ids_subscription_ids_for_mailing_list_ids(ids)

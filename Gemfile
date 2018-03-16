@@ -16,7 +16,7 @@ gem 'spring-commands-cucumber'
 gem 'thor', '0.19.1'
 gem 'delayed_job_active_record'
 gem 'sqlite3'
-gem 'mysql2', '~>0.3.10'
+gem 'mysql2', '~>0.3.16'
 if ENV['POSTGRES']
   gem 'pg'
 end

@@ -137,7 +137,7 @@ GEM
     multi_json (1.13.1)
     multi_test (0.1.2)
     multi_xml (0.6.0)
-    mysql2 (0.4.10)
+    mysql2 (0.3.21)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
     orm_adapter (0.5.0)
@@ -258,7 +258,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   mail_manager!
-  mysql2
+  mysql2 (~> 0.3.10)
   poltergeist
   post_office
   pry-rails

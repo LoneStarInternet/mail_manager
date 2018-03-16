@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
 gemspec
 
+gem 'xpath', '~>2.1'
 # jquery-rails is used by the dummy application
 gem "devise"
 gem "jquery-rails"
@@ -42,5 +43,6 @@ group :test do
   gem 'capybara'
   gem 'poltergeist'
   gem 'database_cleaner'
+  gem 'cucumber', '~>2.1'
   gem 'cucumber-rails', require: false
 end

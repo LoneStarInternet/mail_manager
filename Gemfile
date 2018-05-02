@@ -27,6 +27,8 @@ group :test, :development do
   gem "factory_girl_rails", "~>4.3"
   gem "faker"
   gem 'post_office'
+  gem 'brakeman'
+  gem 'bundler-audit'
 end
 
 #group :test, :development, :post_office do

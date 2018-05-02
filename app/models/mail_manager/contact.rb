@@ -10,7 +10,7 @@ module MailManager
     validates_presence_of :email_address
     #validates_format_of :email_address, :with => Authentication.email_regex, 
     #  :message => Authentication.bad_email_message, :allow_nil => true
-    validates_format_of :email_address, :with => /\w{1,}[@][\w\-]{1,}([.]([\w\-]{1,})){1,3}$/, :allow_nil => true
+    validates_format_of :email_address, :with => /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i, :allow_nil => true
 
     before_validation :trim_fields
 

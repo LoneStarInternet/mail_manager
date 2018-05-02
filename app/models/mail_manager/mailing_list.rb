@@ -32,7 +32,7 @@ module MailManager
         s.id as subscription_id from #{MailManager.table_prefix}contacts c 
         inner join #{MailManager.table_prefix}subscriptions s on c.id=s.contact_id 
         where s.status in ('active') and c.deleted_at is NULL and mailing_list_id in (#{
-        mailing_list_ids.join(',')})|
+        mailing_list_ids.map(&:to_i).uniq.join(',')})|
       )
       results = results.map(&:values) if results.first.is_a?(Hash)
       results.inject(Hash.new){ |h,r|

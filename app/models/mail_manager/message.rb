@@ -39,7 +39,7 @@ module MailManager
         %Q|select distinct c.email_address 
         from #{MailManager.table_prefix}contacts c 
         inner join #{MailManager.table_prefix}messages m 
-        on c.id=m.contact_id where m.mailing_id=#{mailing_id}|
+        on c.id=m.contact_id where m.mailing_id=#{mailing_id.to_i}|
       )
       results = results.map(&:values) if results.first.is_a?(Hash) 
       results.inject(Hash.new){|h,r|h.merge!(r[0].to_s.strip.downcase => true)}

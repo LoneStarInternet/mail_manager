@@ -20,6 +20,7 @@ module MailManager
     validates :name, presence: true
   
     include StatusHistory
+    include Deleteable if (column_names.include?('deleted_at') rescue false)
     before_create :set_default_status
 
     attr_protected :id

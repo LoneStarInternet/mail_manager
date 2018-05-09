@@ -1,5 +1,6 @@
 module MailManager
   class MailingListsController < MailManager::ApplicationController
+    include DeleteableActions
     def index
       @mailing_lists = MailingList.active.order("name asc").paginate(:page => params[:page])
     end

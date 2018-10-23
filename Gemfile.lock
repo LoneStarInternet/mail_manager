@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mail_manager (3.2.8)
+    mail_manager (3.2.22.0)
       cancancan (~> 1.9)
       daemons (~> 1.1)
       delayed_job (~> 4)

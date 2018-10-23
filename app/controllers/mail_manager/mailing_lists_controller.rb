@@ -34,10 +34,5 @@ module MailManager
       end
     end
 
-    def destroy
-      @mailing_list.destroy
-      flash[:notice] = "Mailing List was deleted."
-      redirect_to(mail_manager.mailing_lists_url)
-    end
   end
 end

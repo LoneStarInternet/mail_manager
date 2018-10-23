@@ -159,6 +159,13 @@ RSpec.describe MailManager::MailingListsController, :type => :controller do
       delete :destroy, {:id => mailing_list.to_param}, valid_session
       expect(response).to redirect_to(mailing_lists_url)
     end
+
+    it "only soft deletes the mailing list" do
+      mailing_list = MailManager::MailingList.create! valid_attributes
+      expect {
+        delete :destroy, {:id => mailing_list.to_param}, valid_session
+      }.to change(MailManager::MailingList.deleted, :count).by(1)
+    end
   end
 
 end

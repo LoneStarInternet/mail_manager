@@ -35,5 +35,11 @@ RSpec.describe User do
       @user.reload
       expect(@user.subscriptions.detect(&:active?).mailing_list).to eq(@mailing_list)
     end
+    it "soft deletes its contact when it is destroyed" do
+      contact = @user.contact
+      @user.destroy
+      expect(MailManager::Contact.deleted.where(id: contact.id).count).to eq 1
+      expect(MailManager::Contact.where(id: contact.id).count).to eq 0
+    end
   end
 end

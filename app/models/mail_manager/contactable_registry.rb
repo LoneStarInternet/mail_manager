@@ -137,6 +137,13 @@ module MailManager
       def active_subscriptions
         subscriptions.select{|subscription| subscription.active?}
       end
+
+      def destroy
+        self.transaction do
+          super
+          contact.try(:delete)
+        end
+      end
       
       def save(*args)
         success = true

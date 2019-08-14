@@ -28,7 +28,7 @@ Feature: Mailing List Management
    Given a mailing list named "Funk" exists
     When I go to the mailing lists page
      And I follow "Delete"
-    Then I should see "Mailing List was deleted."
+    Then I should see "Mailinglist successfully deleted."
      And I should not see "Funk"
   
   Scenario: Mailing lists paginate

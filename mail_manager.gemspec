@@ -20,7 +20,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'jquery-ui-themes', "~>0.0"
   gem.add_dependency "daemons", "~>1.1"
   gem.add_dependency "with_lock", "~>0.1"
-  gem.add_dependency "mini_magick", "~>4.1"
+  gem.add_dependency "mini_magick", "=4.9.4"
   gem.add_dependency "will_paginate", "~>3.0"
   gem.add_dependency 'unix_utils', "~>0.0"
   gem.add_dependency "delayed_job", '~>4'

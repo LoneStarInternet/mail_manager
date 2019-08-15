@@ -12,7 +12,7 @@ Online Documentation
 
 Requirements
 ------------
-* Rails 3.2.x (currently tested with rails 3.2.21)
+* Rails 3.2.x (currently tested with rails 3.2.25)
 * Ruby 2.1.5 (currently tested with 2.1.5, we have tested against 1.9.3, but ruby devs no longer support it)
 * [Bundler](http://bundler.io)
 * [Delayed::Job](https://github.com/collectiveidea/delayed_job/) - (currently the only queue job runnerwe support)
